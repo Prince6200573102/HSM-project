@@ -1,0 +1,142 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class Patient {
+    private int id;
+    private String name;
+    private int age;
+    private String disease;
+
+    public Patient(int id, String name, int age, String disease) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.disease = disease;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    @Override
+    public String toString() {
+        return "Patient ID: " + id + ", Name: " + name + ", Age: " + age + ", Disease: " + disease;
+    }
+}
+
+class Hospital {
+    private ArrayList<Patient> patients;
+
+    public Hospital() {
+        patients = new ArrayList<>();
+    }
+
+    public void addPatient(Patient patient) {
+        patients.add(patient);
+        System.out.println("Patient added successfully!");
+    }
+
+    public void displayPatients() {
+        if (patients.isEmpty()) {
+            System.out.println("No patients found.");
+        } else {
+            for (Patient patient : patients) {
+                System.out.println(patient);
+            }
+        }
+    }
+
+    public void searchPatient(int id) {
+        for (Patient patient : patients) {
+            if (patient.getId() == id) {
+                System.out.println("Patient found: " + patient);
+                return;
+            }
+        }
+        System.out.println("Patient with ID " + id + " not found.");
+    }
+
+    public void deletePatient(int id) {
+        for (Patient patient : patients) {
+            if (patient.getId() == id) {
+                patients.remove(patient);
+                System.out.println("Patient removed successfully!");
+                return;
+            }
+        }
+        System.out.println("Patient with ID " + id + " not found.");
+    }
+}
+
+public class HospitalManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Hospital hospital = new Hospital();
+        int choice;
+
+        do {
+            System.out.println("\n--- Hospital Management System ---");
+            System.out.println("1. Add Patient");
+            System.out.println("2. Display Patients");
+            System.out.println("3. Search Patient by ID");
+            System.out.println("4. Delete Patient by ID");
+            System.out.println("5. Exit");
+            System.out.print("Enter your choice: ");
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter Patient ID: ");
+                    int id = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Patient Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Patient Age: ");
+                    int age = scanner.nextInt();
+                    scanner.nextLine(); // Consume newline
+                    System.out.print("Enter Patient Disease: ");
+                    String disease = scanner.nextLine();
+                    hospital.addPatient(new Patient(id, name, age, disease));
+                    break;
+
+                case 2:
+                    hospital.displayPatients();
+                    break;
+
+                case 3:
+                    System.out.print("Enter Patient ID to search: ");
+                    int searchId = scanner.nextInt();
+                    hospital.searchPatient(searchId);
+                    break;
+
+                case 4:
+                    System.out.print("Enter Patient ID to delete: ");
+                    int deleteId = scanner.nextInt();
+                    hospital.deletePatient(deleteId);
+                    break;
+
+                case 5:
+                    System.out.println("Exiting the system. Thank you!");
+                    break;
+
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 5);
+
+        scanner.close();
+    }
+}
